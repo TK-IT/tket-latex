@@ -22,12 +22,8 @@
 \usepackage{graphicx}
 \usepackage[table]{xcolor}
 
-%\usepackage[charter]{mathdesign}
-%\usepackage{fourier}
 \usepackage{lmodern}
 \usepackage[scaled]{luximono}
-
-%\usepackage{eso-pic}
 
 \usepackage{enumitem}
 
@@ -142,15 +138,12 @@
 \author{Rasmus Villemoes}
 \date{\today}
 
-%\renewcommand{\thesection}{\arabic{section}}
-
 \hyphenation{krum-spring}
 
 \begin{document}
 
 \maketitle
 
-%\addtocontents{toc}{\protect\begin{multicols}{2}}
 \tableofcontents*
 
 \section{Indledning}
@@ -743,81 +736,7 @@ dokumentere anvendelsen. Uddrag af historikken:
   tidligere versioner.
 \end{description}
 
-
-%\addtocontents{toc}{\protect\end{multicols}}
-
 \end{document}
-
-% Version history:
-%
-% v2.0, 2011-05-??: Major revision:
-%
-% (1) Now there is official documentation in the form of the file
-% tket-doc.pdf. Henceforth, the change history will only be listed in
-% the documentation (so this section of the file will not be updated
-% anymore).
-%
-% (2) Removed star versions of \KASS and \RemToR. Macros with star
-% variants are automatically more fragile than ordinary macros, and
-% there wasn't really any need for these variants.
-%
-% (3) The \KASS and \RemToR macros did not contain \xspace in their
-% definition. Fixed.
-%
-% (4) Changed the way the package is configured. It now uses
-% key-value-syntax in the optional argument. Also introduced the macro
-% \TKsetup which can be used in the document to change the settings.
-%
-% (5) \TKprefix has been completely rewritten. In ordinary use, it is
-% now "completely expandable", which is A Good Thing. A boolean flag
-% `exponent' controls how T^4O is written (T$^{4}$O vs. T4O). The
-% non-superscript version is automatically used inside the first
-% argument of a \href{}{} (which is a cool feature!).
-%
-% (6) Now includes small pictograms for each title in BEST (a crown, a
-% pair of crossed rokokoclubs, a horn etc.), and also a pictogram for
-% a generic FU, a TK-flag.
-%
-% (7) Renamed \setTKyear and \getTKyear to \TKsetyear, \TKgetyear to
-% keep within the \TK... namespace. (\KASS and \RemToR are the only
-% exceptions).
-%
-% (8) Lots of other technical improvements, which I don't
-% remember. This document should document all features. 
-%
-% v1.0, 2009-06-11: First official release. The only difference
-% between this and v0.6 is the version number (and date).
-%
-% v0.6, 2009-06-01: First semi-official release, pending approval by
-% the current BEST. This version changed the requirement of the
-% package graphicx to graphics (as recommended in the graphic(s|x)
-% documentation). A "prefix calculator", \TKprefix was introduced,
-% along with public macros \setTKyear and \getTKyear. The package now
-% takes an optional argument setting the initial reference year, but
-% has a rather intelligent way of guessing the correct reference year
-% if this argument is omitted.
-%
-% v0.5, 2009-05-28: Corrected the bugs in v0.4, and built the \TKxyz
-% macros in a more intelligent way. Also made the \RemToR and \KASS
-% macros configurable by adding user-renewcommand'able macros
-% \RemToR(var)epsilon and \KASS(var)dollar.
-%
-% v0.4, 2009-05-26: Added *-variants of all previous macros. This
-% version was very buggy because of wrong use of \xspace in
-% conjunction with \@ifstar!
-%
-% v0.3, 2009-05-23: Added macros \RemToR and \KASS and \TKETs.
-%
-% v0.2, 2009-05-21: Added requirements for the packages graphicx and
-% xspace, added \xspace to the macro definitions.
-%
-% v0.1, 2009-05-20: Added \ProvidesPackage information. Provides the
-% macros \TK, \TKET, \TKETS just as earlier versions.
-%
-% Unnumbered versions prior to May 2009: There existed various
-% editions of the file tket.sty here and there. The present file is an
-% attempt to unify, standardize and extend these.
-
 
 
 %%% Local Variables: 
