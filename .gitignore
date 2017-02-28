@@ -3,9 +3,14 @@
 *.out
 *.toc
 *.synctex.gz
+*.fdb_latexmk
+*.fls
 
 # AUCTeX auto folder
 auto/
 
 # minted folders
 _minted*
+
+tket.tds/*
+tket.tds.zip
