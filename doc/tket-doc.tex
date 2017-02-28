@@ -70,24 +70,18 @@
 
 % Til brug i tabellen som viser \TKxyz og venner...
 \newcommand{\vismakro}[1]{\cmdprint{#1} & #1}
-\colorlet{TKoddrow}{green!30!white}
-\colorlet{TKevenrow}{green!50!white}
 
-%%%% Kodefremvisning
-% Baggrundsfarven til kodeeksempler
-\definecolor{kodebaggrund}{rgb}{1,1,0.6}
+%\setlength{\FrameSep}{3em}
+
+%%%% Kode- og resultatfremvisning
+\usepackage{mdframed}
 \usepackage{minted}
-\setminted[latex]{bgcolor=kodebaggrund}
+\setminted[latex]{fontsize=\small}
+\mdfdefinestyle{kodestyle}{backgroundcolor=orange!10, hidealllines=true}
+\surroundwithmdframed[style=kodestyle]{minted}
+\newcommand{\mdframedinputminted}[2]{\begin{mdframed}[style=kodestyle]\inputminted{#1}{#2}\end{mdframed}}
 
-%%%% Resultatfremvisning
-\definecolor{shadecolor}{gray}{.9}
-\newenvironment{resultat}{%
-  \begin{adjustwidth}{15mm}{15mm}%
-    \begin{qshade}%
-    }{%
-    \end{qshade}%
-  \end{adjustwidth}}
-
+\newmdenv[backgroundcolor=blue!7, hidealllines=true]{resultat}
 
 \title{Pakken \ptket (\pTKETVer)}
 \author{Rasmus Villemoes}
@@ -119,7 +113,7 @@ T-shirts er også inkluderet. Se også \vref{sec:historik}.
 
 En del eksempler på hvad du kan med pakken ses af nedenstående
 eksempel.
-\inputminted{latex}{eksempel-demo.tex}
+\mdframedinputminted{latex}{eksempel-demo.tex}
 
 \begin{resultat}
 \input{eksempel-demo}
@@ -214,7 +208,6 @@ pakken stiller til rådighed.
   \centering
   \caption{Oversigt over simple makroer fra \ptket.}
   \label{tab:simple-makroer}
-  \rowcolors{1}{TKoddrow}{TKevenrow}
   \begin{tabularx}{.9\textwidth}{l X l X}
     \vismakro{\TK}       & \vismakro{\TKET}    \\
     \vismakro{\TKETs}    & \vismakro{\TKETS}   \\
@@ -222,9 +215,7 @@ pakken stiller til rådighed.
     \vismakro{\TKETsAA}  & \vismakro{\TKETSAA} \\  
     \vismakro{\RemToR}   & \vismakro{\KASS}    \\
     \vismakro{\CERM}     & \vismakro{\VC}      \\
-    \cs{TKurl} & 
-    \multicolumn{3}{l}{\ifodd\rownum
-      \cellcolor{TKoddrow}\else\cellcolor{TKevenrow}\fi \TKurl} 
+    \cs{TKurl} & \multicolumn{3}{l}{\TKurl}
   \end{tabularx}
 \end{table}
 
@@ -235,7 +226,7 @@ tuborgpar \texttt{\{\}} eller gøre andre krumspring. Hvis du ikke ved
 hvad dette betyder, så se enten \pakkenavn{xspace}-dokumentationen
 eller følgende eksempel.
 
-\inputminted{latex}{eksempel-xspace.tex}
+\mdframedinputminted{latex}{eksempel-xspace.tex}
 Med \pakkenavn{xspace}-funktionalitet giver dette
 \begin{resultat}
 \input{eksempel-xspace}
@@ -265,14 +256,13 @@ baggrund for at demonstrere deres gennemsigtighed.
   \label{tab:ikon}
   \newcolumntype{Y}{>{\hsize=1.2\hsize\hfill}X<{\hfill\strut}}
   \newcolumntype{Z}{>{\hsize=0.6\hsize}X}
-  \colorbox{green!30!white}{%
-    \begin{tabularx}{.7\textwidth}{l Y Z l Y}
-      \vismakro{\ikonFORM} && \vismakro{\ikonNF} \\
-      \vismakro{\ikonCERM} && \vismakro{\ikonVC} \\
-      \vismakro{\ikonSEKR} && \vismakro{\ikonPR} \\
-      \vismakro{\ikonKASS} && \vismakro{\ikonFU}
-    \end{tabularx}
-  }
+  \begin{tabularx}{.7\textwidth}{l Y Z l Y}
+    \vismakro{\ikonFORM} && \vismakro{\ikonNF} \\
+    \vismakro{\ikonCERM} && \vismakro{\ikonVC} \\
+    \vismakro{\ikonSEKR} && \vismakro{\ikonPR} \\
+    \vismakro{\ikonKASS} && \vismakro{\ikonFU}
+  \end{tabularx}
+
 \end{table}
 
 Faktisk er ovenstående ikke helt de billeder der findes på
@@ -285,7 +275,7 @@ usynlige. De forenklede versioner, som vi kalder ikoner, i
 
 % Disse makroer tager et valgfrit argument. Dette bliver brugt som
 % parametre til \cs{includegraphics}-kaldet. Du kan altså fx skrive
-% \inputminted{latex}{eksempel-pikto.tex}
+% \mdframedinputminted{latex}{eksempel-pikto.tex}
 % og opnå
 % \begin{resultat}
 %   \input{eksempel-pikto}  
@@ -318,7 +308,7 @@ blev opnået. Et firecifret tal (mindst~1956) bruges som det er, mens
 et tocifret tal fortolkes som et år i intervallet 1956--2055. Tal
 mellem 100 og 1955 udløser fejl. Som eksempel vil
 
-\inputminted{latex}{eksempel-prefix1.tex}
+\mdframedinputminted{latex}{eksempel-prefix1.tex}
 give resultatet
 
 \begin{resultat}
@@ -452,7 +442,7 @@ generalforsamlingen 2006. Vi vil gerne skrive CERM som
 $\mathbbm{C}$ERM, men VC skal blot skrives med normale bogstaver. Endelig
 vil vi gerne benytte os af dobbeltstregede dollartegn til \KASS. Det
 kan opnås ved at skrive
-\inputminted{latex}{eksempel-konf.tex}
+\mdframedinputminted{latex}{eksempel-konf.tex}
 i preamblen, sammen med passende \cs{usepackage}-kald for at stille
 \cs{mathbbm}-fonten og \textdollaroldstyle{} til rådighed.
 
@@ -542,7 +532,7 @@ pakke laver, blandt meget andet, en elektronisk indholdsfortegnelse i
 pdf-filen. I denne kan kun almindelig tekst bruges, og
 hoppe-danse-bogstaverne og ikonerne tæller ikke som almindelig
 tekst. Hvis man får en fejl som
-\begin{minted}{latex}
+\begin{minted}[fontsize=\footnotesize]{latex}
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `\TKET' on input line 430.
 \end{minted}
@@ -587,7 +577,7 @@ brug, et hyperlink til \TKETs hjemmeside, \TKurl.
 
 Makroen \cs{RemToR} er forsynet med en lille snedighed, som er
 relevant når \RemToR skrives med fed skrift. Se selv:
-\inputminted{latex}{eksempel-RemToR.tex}
+\mdframedinputminted{latex}{eksempel-RemToR.tex}
 
 \begin{resultat}
 \input{eksempel-RemToR}
@@ -613,7 +603,7 @@ En af fordelene ved at droppe det valgfri argument til \cs{TKprefix}
 var at makroen kunne gøres, i \TeX-lingo, »fully expandable«. Det
 betyder at den kan bruges i ellers skrøbelige steder som fx i første
 argument til \cs{href}:
-\inputminted{latex}{eksempel-href.tex}
+\mdframedinputminted{latex}{eksempel-href.tex}
 (Hold musen over teksten nedenfor for at se emailadressen som et »tooltip«.)
 \begin{resultat}
 \input{eksempel-href}
