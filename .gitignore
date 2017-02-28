@@ -6,3 +6,6 @@
 
 # AUCTeX auto folder
 auto/
+
+# minted folders
+_minted*

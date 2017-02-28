@@ -24,8 +24,6 @@
 
 \usepackage{microtype}
 
-\usepackage{listings}
-
 \usepackage{tket}
 
 \makeatletter
@@ -75,7 +73,11 @@
 \colorlet{TKoddrow}{green!30!white}
 \colorlet{TKevenrow}{green!50!white}
 
-
+%%%% Kodefremvisning
+% Baggrundsfarven til kodeeksempler
+\definecolor{kodebaggrund}{rgb}{1,1,0.6}
+\usepackage{minted}
+\setminted[latex]{bgcolor=kodebaggrund}
 
 %%%% Resultatfremvisning
 \definecolor{shadecolor}{gray}{.9}
@@ -85,33 +87,6 @@
     }{%
     \end{qshade}%
   \end{adjustwidth}}
-
-%%%% Kodefremvisning
-% Baggrundsfarven til kodeeksempler
-\definecolor{kodebaggrund}{rgb}{1,1,0.6}
-% Hent definitionerne for sproget TeX, i dialekten LaTeX
-\lstloadlanguages{[LaTeX]TeX}
-% Nogle valg som gælder alle \lst-makroer.
-\lstset{language=[LaTeX]TeX,
-  backgroundcolor=\color{kodebaggrund},
-  keywordstyle={},
-  extendedchars=true,
-  inputencoding=utf8,
-  basicstyle=\small\ttfamily,
-  xleftmargin=0em,
-  xrightmargin=0em,
-  frame=single}
-% Dette dokument er skrevet med utf8-encoding. Det spiller ikke så
-% godt med listings, med mindre vi hjælper lidt. Tak, google.
-\lstset{literate={æ}{{\ae}}1
-  {ø}{{\o}}1
-  {å}{{\aa}}1
-  {Æ}{{\AE}}1
-  {Ø}{{\O}}1
-  {Å}{{\AA}}1
-  {»}{{\guillemotright}}1
-  {«}{{\guillemotleft}}1 }
-
 
 %%%%% \section og lign.
 \renewcommand{\chaptitlefont}{\secheadstyle} % For the ToC heading
@@ -166,7 +141,7 @@ T-shirts er også inkluderet. Se også \vref{sec:historik}.
 
 En del eksempler på hvad du kan med pakken ses af nedenstående
 eksempel.
-\lstinputlisting{eksempel-demo.tex}
+\inputminted{latex}{eksempel-demo.tex}
 
 \begin{resultat}
 \input{eksempel-demo}
@@ -216,9 +191,9 @@ Keine Ahnung.
 
 I sin enkleste form benyttes pakken ved simpelthen at skrive
 
-\begin{lstlisting}
+\begin{minted}{latex}
 \usepackage{tket}
-\end{lstlisting}
+\end{minted}
 et sted i ens preamble. Pakken forudsætter at pakkerne
 \pakkenavn{xspace}, \pakkenavn{graphicx}, \pakkenavn{etoolbox} og
 \pakkenavn{xkeyval} er til stede (men dem har du højst sandsynligt
@@ -236,15 +211,15 @@ såkaldte \emph{key-value}-par. Syntaksen er den samme som for makroen
 \cs{TKsetup} beskrevet i \vref{sec:konfiguration}. Med
 andre ord er
 
-\begin{lstlisting}[escapechar=|]
+\begin{minted}[escapeinside=||]{latex}
 \usepackage[|\meta{key-value-liste}|]{tket}
-\end{lstlisting}
+\end{minted}
 helt ækvivalent til
 
-\begin{lstlisting}[escapechar=|]
+\begin{minted}[escapeinside=||]{latex}
 \usepackage{tket}
 \TKsetup{|\meta{key-value-liste}|}
-\end{lstlisting}
+\end{minted}
 
 
 \section{Brugerkommandoer}
@@ -282,7 +257,7 @@ tuborgpar \texttt{\{\}} eller gøre andre krumspring. Hvis du ikke ved
 hvad dette betyder, så se enten \pakkenavn{xspace}-dokumentationen
 eller følgende eksempel.
 
-\lstinputlisting{eksempel-xspace.tex}
+\inputminted{latex}{eksempel-xspace.tex}
 Med \pakkenavn{xspace}-funktionalitet giver dette
 \begin{resultat}
 \input{eksempel-xspace}
@@ -332,15 +307,15 @@ usynlige. De forenklede versioner, som vi kalder ikoner, i
 
 % Disse makroer tager et valgfrit argument. Dette bliver brugt som
 % parametre til \cs{includegraphics}-kaldet. Du kan altså fx skrive
-% \lstinputlisting{eksempel-pikto.tex}
+% \inputminted{latex}{eksempel-pikto.tex}
 % og opnå
 % \begin{resultat}
 %   \input{eksempel-pikto}  
 % \end{resultat}
 % Hvis det valgfri argument udelades kaldes \cs{includegraphics} som
-% \begin{lstlisting}[escapechar=|]
+% \begin{minted}[escapeinside=||]{latex}
 %   \includegraphics[height=|\meta{værdi af nøglen \optionname{ludo}}|]{CERM-ludo}
-% \end{lstlisting}
+% \end{minted}
 
 % Du vil formentlig altid ønske at skalere ned på den ene eller anden
 % måde, idet grafikfilernes naturlige størrelse er ret stor. På
@@ -355,9 +330,9 @@ potens. Der er også situationer hvor noget \LaTeX-kode må forventes at
 blive genbrugt (eksempelvis sangtekster), og så ville det være rart
 hvis den slags blev automatisk opdateret.
 
-\begin{lstlisting}[escapechar=|]
+\begin{minted}[escapeinside=||]{latex}
   \TKprefix{|\meta{generalforsamlingsår}|}
-\end{lstlisting}
+\end{minted}
 
 Makroen \cs{TKprefix} tager et obligatorisk argument, som skal være et
 to- eller firecifret årstal der beskriver hvornår den pågældende titel
@@ -365,7 +340,7 @@ blev opnået. Et firecifret tal (mindst~1956) bruges som det er, mens
 et tocifret tal fortolkes som et år i intervallet 1956--2055. Tal
 mellem 100 og 1955 udløser fejl. Som eksempel vil
 
-\lstinputlisting{eksempel-prefix1.tex}
+\inputminted{latex}{eksempel-prefix1.tex}
 give resultatet
 
 \begin{resultat}
@@ -383,9 +358,9 @@ argument for lokalt at vælge et andet referenceår. Den funktionalitet
 er \hyperref[sec:-og-]{fjernet af robusthedshensyn}.
 
 Makroen
-\begin{lstlisting}
+\begin{minted}{latex}
   \TKgetgf
-\end{lstlisting}
+\end{minted}
 printer det årstal der pt. benyttes som reference.
 
 
@@ -394,9 +369,9 @@ printer det årstal der pt. benyttes som reference.
 
 Forskellige aspekter af \ptket kan konfigureres.
 
-\begin{lstlisting}[escapechar=|]
+\begin{minted}[escapeinside=||]{latex}
   \TKsetup{|\meta{key-value-liste}|}
-\end{lstlisting}
+\end{minted}
 
 Al konfiguration foregår via makroen \cs{TKsetup}. Denne tager netop
 et argument, som skal være en kommasepareret liste af par af formen
@@ -499,7 +474,7 @@ generalforsamlingen 2006. Vi vil gerne skrive CERM som
 $\mathbbm{C}$ERM, men VC skal blot skrives med normale bogstaver. Endelig
 vil vi gerne benytte os af dobbeltstregede dollartegn til \KASS. Det
 kan opnås ved at skrive
-\lstinputlisting{eksempel-konf.tex}
+\inputminted{latex}{eksempel-konf.tex}
 i preamblen, sammen med passende \cs{usepackage}-kald for at stille
 \cs{mathbbm}-fonten og \textdollaroldstyle{} til rådighed.
 
@@ -564,17 +539,17 @@ give et optional argument for, for et enkelt kald af makroen, at ændre
 referenceåret, men \LaTeX s måde at håndtere den slags på er desværre
 ikke helt robust. Derfor er også den mulighed skrottet. Så hvad man
 tidligere kunne skrive som
-\begin{lstlisting}
+\begin{minted}{latex}
   \TKprefix[2003]{1998}
-\end{lstlisting}
+\end{minted}
 skal altså nu skrives som
-\begin{lstlisting}
+\begin{minted}{latex}
   {\TKsetup{gf=2003}\TKprefix{1998}}
-\end{lstlisting}
+\end{minted}
 eller, en smule kortere,
-\begin{lstlisting}
+\begin{minted}{latex}
   {\TKsetgf{2003}\TKprefix{1998}}
-\end{lstlisting}
+\end{minted}
 \fboxsep=0pt
 (bemærk det yderste sæt $\{\}$-parenteser som holder ændringen lokal.)
 
@@ -589,28 +564,28 @@ pakke laver, blandt meget andet, en elektronisk indholdsfortegnelse i
 pdf-filen. I denne kan kun almindelig tekst bruges, og
 hoppe-danse-bogstaverne og ikonerne tæller ikke som almindelig
 tekst. Hvis man får en fejl som
-\begin{lstlisting}
+\begin{minted}{latex}
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `\TKET' on input line 430.
-\end{lstlisting}
+\end{minted}
 og pdf-bogmærket kun viser »og i overskrifter« når man prøver
-\begin{lstlisting}
+\begin{minted}{latex}
 \subsection{\TKET og \ikonCERM i overskrifter}
-\end{lstlisting}
+\end{minted}
 er løsningen er at give to
 forskellige tekststrenge; en som \LaTeX{} spiser, og en som bruges i
 bogmærket. Det gøres ved at skrive
-\begin{lstlisting}
+\begin{minted}{latex}
 \subsection{\texorpdfstring{\TKET}{TÅGEKAMMERET} og
   \texorpdfstring{\ikonCERM}{CERM} i overskrifter}
-\end{lstlisting}
+\end{minted}
 
 Hvis \ptket opdager at \pakkenavn{hyperref}-pakken er i brug laves der
 automagisk et antal \cs{...pdf}-makroer så ovenstående kan forkortes
 til det der faktisk er brugt i denne manual:
-\begin{lstlisting}
+\begin{minted}{latex}
 \subsection{\TKETpdf og \ikonCERMpdf i overskrifter}
-\end{lstlisting}
+\end{minted}
 Mere præcist betyder »opdager« at \ptket tjekker \cs{AtBeginDocument}
 hvorvidt \pakkenavn{hyperref} er hentet, og handler
 derefter. Rækkefølgen hvori \pakkenavn{hyperref} og \ptket hentes er
@@ -634,7 +609,7 @@ brug, et hyperlink til \TKETs hjemmeside, \TKurl.
 
 Makroen \cs{RemToR} er forsynet med en lille snedighed, som er
 relevant når \RemToR skrives med fed skrift. Se selv:
-\lstinputlisting{eksempel-RemToR.tex}
+\inputminted{latex}{eksempel-RemToR.tex}
 
 \begin{resultat}
 \input{eksempel-RemToR}
@@ -660,7 +635,7 @@ En af fordelene ved at droppe det valgfri argument til \cs{TKprefix}
 var at makroen kunne gøres, i \TeX-lingo, »fully expandable«. Det
 betyder at den kan bruges i ellers skrøbelige steder som fx i første
 argument til \cs{href}:
-\lstinputlisting{eksempel-href}
+\inputminted{latex}{eksempel-href.tex}
 (Hold musen over teksten nedenfor for at se emailadressen som et »tooltip«.)
 \begin{resultat}
 \input{eksempel-href}
@@ -741,10 +716,12 @@ dokumentere anvendelsen. Uddrag af historikken:
 \end{document}
 
 
-%%% Local Variables: 
+%%% Local Variables:
+%%% coding: utf-8
 %%% mode: latex
 %%% mode: auto-revert
 %%% TeX-master: t
+%%% TeX-command-extra-options: "-shell-escape"
 %%% End: 
 
 
