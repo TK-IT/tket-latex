@@ -4,13 +4,13 @@
 % version/date information is meant to be updated manually when a new
 % version is actually released to the outside world.
 %
-% [Emacs] Time-stamp: <2011-06-03 16:04:22 villemoes>
+% [Emacs] Time-stamp: <2015-11-07 16:01:33 svif>
 % File: tket.sty
-% Current version: 2.1
+% Current version: 3.0
 % Current maintainer: Rasmus Villemoes <KASS02@TAAGEKAMMERET.au.dk>
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{tket}
-  [2011/06/03 v2.1: Various TAAGEKAMMER related macros]
+  [2014/11/08 v3.0: Various TAAGEKAMMER related macros]
 
 % dollar     tegnet brugt som S i KASS, default \$
 % epsilon    tegnet brugt som e i RemToR, default \ensuremath{\epsilon}
@@ -21,6 +21,10 @@
 % vcC        C'et i \VC, standard C
 % C          Meta-key til at sætte begge de to foregående
 % ikonh      Ikonhøjde, standard 1em.
+% koelleKASS boolean: hvorvidt Ludo-piktogrammet \ikonKASS skal være
+%              afhængigt af referenceåret: Hvis ja (standard) får man
+%              køllerne når året er før 2014 hvor den første INKA blev
+%              valgt; hvis nej får man altid kuglerammen
 
 % For parsing options, and to implement \TKsetup
 \RequirePackage{xkeyval}
@@ -33,6 +37,9 @@
 % rotate the letters of \TKET, and for the inclusion of pictograms.
 \RequirePackage{xspace}
 \RequirePackage{graphicx}
+
+% cermC and vcC defaults to complex C as of november 2014.
+\RequirePackage{amsfonts}
 
 %%% Internal macros
 % Info, warnings, errors
@@ -103,6 +110,7 @@
     \providecommand*{\ikonSEKRpdf}{\texorpdfstring{\ikonSEKR}{SEKR\xspace}}
     \providecommand*{\ikonPRpdf}  {\texorpdfstring{\ikonPR}  {PR\xspace}}
     \providecommand*{\ikonKASSpdf}{\texorpdfstring{\ikonKASS}{KASS\xspace}}
+    \providecommand*{\ikonINKApdf}{\texorpdfstring{\ikonINKA}{INKA\xspace}}
     \providecommand*{\ikonFUpdf}  {\texorpdfstring{\ikonFU}  {FU\xspace}}
 
   }{% hyperref not loaded
@@ -141,9 +149,15 @@
 \newrobustcmd*{\ikonVC}  {\includegraphics[height=\dimexpr \tket@iconheight\relax]{ikonVC}\xspace}
 \newrobustcmd*{\ikonSEKR}{\includegraphics[height=\dimexpr \tket@iconheight\relax]{ikonSEKR}\xspace}
 \newrobustcmd*{\ikonPR}  {\includegraphics[height=\dimexpr \tket@iconheight\relax]{ikonPR}\xspace}
-\newrobustcmd*{\ikonKASS}{\includegraphics[height=\dimexpr \tket@iconheight\relax]{ikonKASS}\xspace}
+\newrobustcmd*{\ikonKASS}{\includegraphics[height=\dimexpr \tket@iconheight\relax]{\tket@ikonKASS}\xspace}
+\newrobustcmd*{\ikonINKA}{\includegraphics[height=\dimexpr \tket@iconheight\relax]{ikonINKA}\xspace}
 \newrobustcmd*{\ikonFU}  {\includegraphics[height=\dimexpr \tket@iconheight\relax]{ikonFU}\xspace}
 
+% The option koelleKASS governs the icon for KASS depending on the
+% reference year, but users may wish to use either icon explicitly,
+% most likely in combination with \TKprefix.
+\newrobustcmd*{\ikonKASSkoeller}{\includegraphics[height=\dimexpr \tket@iconheight\relax]{ikonINKA}\xspace}
+\newrobustcmd*{\ikonKASSkugler}{\includegraphics[height=\dimexpr \tket@iconheight\relax]{ikonKASS}\xspace}
 
 % Optional arguments suck! Macros with optional arguments are too
 % fragile (and prevent "full expandability"). So from v2, \TKprefix
@@ -302,7 +316,6 @@
   \fi
 }
 
-
 % RV, 2010-11-03: The following comes from the "ancient" tket.sty. It
 % is, apparently, a home-made poor-man's bold. I have no idea what
 % 'rbl' stands for (but rbll is probably for "rbl length").
@@ -394,6 +407,15 @@
   \fi
 }
 
+%%%%% Should we use abacus or rokokok\o ller for KASS icon?
+% /SVIF, november 2014
+\providecommand*{\tket@ikonKASS}{%
+  \iftoggle{tket@koelleKASS}%
+  {\ifnum\numexpr\tket@reference<2014 % Before INKA.
+    ikonINKA\else ikonKASS\fi}%
+  {ikonKASS}}
+
+
 %%%%% Option declaration and processing
 
 
@@ -429,7 +451,7 @@
 \newcommand*{\tket@DefCustomBoolKey}[1]{%
   \newtoggle{tket@#1}%
   \define@choicekey*+[TK]{tket}{#1}[\tket@tmpa\tket@tmpb]
-    {false,true,no,yes,off,on,nej,ja,nejtak,jatak,niks,jep}[true]
+    {false,true,no,yes,off,on,nej,ja,nejtak,jatak,niks,jep,nix}[true]
     {\ifnumodd{\tket@tmpb}
       {\toggletrue{tket@#1}}
       {\togglefalse{tket@#1}}}
@@ -437,10 +459,12 @@
       {Vaerdien  ``##1'' er ikke gyldig for noeglen ``#1''.\MessageBreak
         Det skal vaere ``true'' (eller ``yes'', ``on'', \MessageBreak
         ``ja'', ``jatak'', ``jep'' eller ingenting)\MessageBreak
-        eller ``false'' (eller ``no'', ``off'', ``nej'', ``nejtak'', ``niks'')}}%end of define@choicekey
+        eller ``false'' (eller ``no'', ``off'', ``nej'', ``nejtak'',
+        ``niks'', ``nix'')}}%end of define@choicekey
 }%end of TKET@DefCustomBoolKey
 
 \tket@DefCustomBoolKey{eksponent}
+\tket@DefCustomBoolKey{koelleKASS}
 %\tket@DefCustomBoolKey{AA}
 
 % Initialize the keys to their default values (except refyear, which
@@ -450,7 +474,8 @@
   epsilon=\ensuremath{\epsilon},
   eksponent=jep,
   ikonh=1.0em,
-  C=C}
+  koelleKASS=jatak,
+  C=\ensuremath{\mathbb{C}}}
 
 % xkeyval aids: xkeyval uses \@nil internally for parsing. This makes
 % it rather hard to have that token in a value. But \@car uses \@nil
