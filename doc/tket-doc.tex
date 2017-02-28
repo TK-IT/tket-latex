@@ -5,16 +5,11 @@
 %
 % History at end of file.
 
-\documentclass[a4paper,article,oneside]{memoir}
+\documentclass[a4paper,article,oneside,danish]{memoir}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[danish]{babel}
-\addto\extrasdanish{%
-  \def\sectionautorefname{Afsnit}%
-  \def\subsectionautorefname{Afsnit}%
-  \def\tableautorefname{Tabel}%
-}
 
 \usepackage{textcomp}
 \usepackage{bbm}
@@ -44,6 +39,12 @@
 \expandafter\expandafter\expandafter\parse@tket@version\csname ver@tket.sty\endcsname\@nil
 \makeatother
 
+
+% Use \vref, \Vref or some other macro from varioref for references.
+
+% varioref, hyperref, cleverref and bookmarks need to be loaded in this order.
+% See cleverref doc. section 13.
+\usepackage{varioref}
 \usepackage{hyperref}
 %%%% Hyperref-opsætning
 \definecolor{nicered}{rgb}{.647,.129,.149}
@@ -54,6 +55,7 @@
   pdftitle={Pakken tket},
   unicode=true
 }
+\usepackage{cleveref}
 
 
 %%%% Diverse rare småting
@@ -157,7 +159,7 @@ skrive \hbox{TÅGEKAMMERET} med de såkaldte hoppe-danse-bogstaver,
 funktionaliteter. Blandt andet er der nu en
 anciennitetspræfiksberegner, og (modificerede udgaver af) de
 piktogrammer der nu om dage findes på bestyrelsens (og FU'ernes)
-T-shirts er også inkluderet. Se også~\autoref{sec:historik}.
+T-shirts er også inkluderet. Se også \vref{sec:historik}.
 
 \section{Demonstration}
 \label{cha:demonstration}
@@ -231,7 +233,7 @@ hentet kan man nemlig ikke hente den igen med nye options).
 
 Pakken accepterer et valgfrit argument, som skal være en liste af
 såkaldte \emph{key-value}-par. Syntaksen er den samme som for makroen
-\cs{TKsetup} beskrevet i \autoref{sec:konfiguration} nedenfor. Med
+\cs{TKsetup} beskrevet i \vref{sec:konfiguration}. Med
 andre ord er
 
 \begin{lstlisting}[escapechar=|]
@@ -252,7 +254,7 @@ helt ækvivalent til
 \label{sec:cstket-og-venner}
 
 
-\autoref{tab:simple-makroer} viser de simple forkortelsesmakroer som
+\Vref{tab:simple-makroer} viser de simple forkortelsesmakroer som
 pakken stiller til rådighed. 
 
 \begin{table}[hbtp]
@@ -301,7 +303,7 @@ komma eller punktum.)
 \label{sec:ikoner}
 
 Piktogrammerne, kendt fra BESTs og FU'ernes T-shirts, er tilgængelige
-via makroerne vist i \autoref{tab:ikon}. De er vist på en farvet
+via makroerne vist i \vref{tab:ikon}. De er vist på en farvet
 baggrund for at demonstrere deres gennemsigtighed.
 
 \begin{table}[hbt]
@@ -325,7 +327,7 @@ T-shirtsene. De er nemlig ikke i sig selv egnede til at blive skaleret
 ned til en størrelse så de kan indgå som symboler i løbende tekst --
 stregtykkelsen er for lille, og mange detaljer bliver nærmest
 usynlige. De forenklede versioner, som vi kalder ikoner, i
-\autoref{tab:ikon} blev oprindelig lavet til brug i regelhæftet til
+\vref{tab:ikon} blev oprindelig lavet til brug i regelhæftet til
 »Kammerludo«.
 
 % Disse makroer tager et valgfrit argument. Dette bliver brugt som
@@ -374,7 +376,7 @@ Præfikset beregnes relativt til \emph{årstallet} for en
 generalforsamling, som man i de fleste tilfælde vil sætte til det
 årstal den nuværende \textsc{best}yrelse blev valgt. Det kan enten
 sættes når pakken hentes, eller vha. makroen \cs{TKsetup}. Se mere
-herom i \autoref{sec:konfiguration} herunder.
+herom i \vref{sec:konfiguration}.
 
 I en tidligere version kunne man give \cs{TKprefix} et valgfrit
 argument for lokalt at vælge et andet referenceår. Den funktionalitet
@@ -399,7 +401,7 @@ Forskellige aspekter af \ptket kan konfigureres.
 Al konfiguration foregår via makroen \cs{TKsetup}. Denne tager netop
 et argument, som skal være en kommasepareret liste af par af formen
   \meta{key}\texttt{=}\meta{value}.
-\autoref{tab:keyval} viser de forskellige nøgler og deres
+\Vref{tab:keyval} viser de forskellige nøgler og deres
 standardværdier.
 
 % \TKsetup
@@ -613,8 +615,8 @@ Mere præcist betyder »opdager« at \ptket tjekker \cs{AtBeginDocument}
 hvorvidt \pakkenavn{hyperref} er hentet, og handler
 derefter. Rækkefølgen hvori \pakkenavn{hyperref} og \ptket hentes er
 underordnet. Mere præcist betyder »et antal« at der laves
-\cs{...pdf}-varianter af alle makroerne i \autoref{tab:simple-makroer}
-og \autoref{tab:ikon}. For standarddefinitionen af \cs{KASS} er det
+\cs{...pdf}-varianter af alle makroerne i \vref{tab:simple-makroer,tab:ikon}.
+For standarddefinitionen af \cs{KASS} er det
 egentlig overflødigt, men hvis \optionname{dollar} sættes til noget
 besynderligt kan det være nødvendigt.
 
