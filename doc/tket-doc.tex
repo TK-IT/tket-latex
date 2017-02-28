@@ -46,7 +46,7 @@
 \hypersetup{colorlinks=true,
   urlcolor=nicered,
   bookmarksopen=true,
-  pdfauthor={Rasmus Villemoes},
+  pdfauthor={TK-IT},
   pdftitle={Pakken tket},
   unicode=true
 }
@@ -80,7 +80,7 @@
 \newmdenv[backgroundcolor=blue!7, hidealllines=true]{resultat}
 
 \title{Pakken \ptket (\pTKETVer)}
-\author{Rasmus Villemoes}
+\author{TK-IT\\\url{https://github.com/TK-IT/tket-latex}}
 \date{\today}
 
 \hyphenation{krum-spring}
@@ -88,6 +88,7 @@
 \begin{document}
 
 \maketitle
+
 
 \tableofcontents*
 
@@ -646,31 +647,27 @@ resultatet blive
 \section{Historik}
 \label{sec:historik}
 
-Den nuværende vedligeholder af pakken er \TKprefix{2002}\KASS, Rasmus
-Villemoes, som nemmest kan kontaktes via emailadressen
-\emaillink{KASS0203@TAAGEKAMMERET.dk}. Bugrapporter, forslag til nye
-features og andre kommentarer modtages gerne.
-
-T-shirtpiktogrammerne er oprindelig tegnet af \TKprefix{2005}PR,
-Katrine Skovbo, i 2006. Efterfølgende blev de digitaliseret og
-modificeret af \TKprefix{2005}FORM, Dan Beltoft, så de var brugbare i
-en størrelse svarende til højden af løbende tekst. Det er disse
-modificerede versioner som stilles til rådighed af denne pakke. Hvis
-du har brug for den grafik der faktisk bruges til at producere
-T-shirts må du kontakte \TKETs bestyrelse.
-
-Før maj 2009 fandtes der diverse unummererede versioner af filen
-\filnavn{tket.sty} rundt omkring, som definerede varierende delmængder
-af makroerne \cs{TK}, \cs{TKET}, \cs{TKETs} og \cs{TKETS}. Disse
-definitioner var ikke altid indbyrdes kompatible. Især genitivformerne
-var et problem; makroen \cs{TKETS} kunne både give \TKETS, \TKETs og
-\TKET{}s.
-
-Det nuværende projekt startede som et forsøg på at forene,
-standardisere, og udvide disse mange versioner, og, fra version 2.0,
-dokumentere anvendelsen. Uddrag af historikken:
+Pakken er fra 2017 blevet lagt på \url{https://github.com/TK-IT/tket-latex} og
+vedligeholdes af TK-IT.
+Den har fra 2009 til 2015 været vedligeholdt af \TKprefix{2002}\KASS, Rasmus
+Villemoes.
 
 \begin{description}
+\item[3.1] (2017-02-28)
+  \begin{itemize}
+  \item Der er skrevet dokumentation til ændringerne der er sket i v3.0.
+  \item Der er ryddet op i koden til dokumentationen.
+  \item Pakken er blevet offentligjort og flyttet til \url{https://github.com/TK-IT/tket-latex}.
+  \end{itemize}
+\item[3.0] (2015-11-07)
+  \begin{itemize}
+  \item Der er kommet nyt bestyrelsesmedllem. \cs{ikonKASS} er blevet ændret til
+    kuglerammen, \ikonKASS og \cs{ikonINKA} er tilføjet som køllerne, \ikonINKA.
+  \item Desuden er der engang omkring november 2014 blevet
+  besluttet at standard for \texttt{cermC} og \texttt{vcC} er
+  \cs{ensuremath}\{\cs{mathbb}\{C\}\}.
+  \end{itemize}
+  Disse ændringer har ikke været dokumenteret før v3.1.
 \item[2.1] (2011-06-03) Stort set komplet reimplementering:
   \begin{itemize}
   \item Nu med dokumentation.
@@ -708,6 +705,26 @@ dokumentere anvendelsen. Uddrag af historikken:
   makroerne \cs{TK}, \cs{TKET} og \cs{TKETS} til rådighed som
   tidligere versioner.
 \end{description}
+
+Før maj 2009 fandtes der diverse unummererede versioner af filen
+\filnavn{tket.sty} rundt omkring, som definerede varierende delmængder
+af makroerne \cs{TK}, \cs{TKET}, \cs{TKETs} og \cs{TKETS}. Disse
+definitioner var ikke altid indbyrdes kompatible. Især genitivformerne
+var et problem; makroen \cs{TKETS} kunne både give \TKETS, \TKETs og
+\TKET{}s.
+
+T-shirtpiktogrammerne er oprindelig tegnet af \TKprefix{2005}PR,
+Katrine Skovbo, i 2006. Efterfølgende blev de digitaliseret og
+modificeret af \TKprefix{2005}FORM, Dan Beltoft, så de var brugbare i
+en størrelse svarende til højden af løbende tekst. Det er disse
+modificerede versioner som stilles til rådighed af denne pakke.
+Den nye \KASS{}-kugleramme er tegnet af \TKprefix{2009}PR og er minituriseret af \TKprefix{2012}FORM.
+Hvis du har brug for den grafik der faktisk bruges til at producere T-shirts må
+du kontakte \TKETs bestyrelse.
+
+Som en del af offentligørrelsen i 2017 er der blevet indhæntet bekræftelse fra
+alle tidligere bidragsydere. De har alle overgivet deres bidrag til foreningen
+\TKET.
 
 \end{document}
 
