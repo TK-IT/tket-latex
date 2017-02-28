@@ -1,9 +1,6 @@
 % [Emacs] Time-stamp: <2011-06-03 16:04:51 villemoes> 
 % File: tket-doc.tex
-% Documentation of tket.sty, version: 2.0b
-% Current maintainer: Rasmus Villemoes <KASS02@TAAGEKAMMERET.au.dk>
-%
-% History at end of file.
+% Documentation of tket.sty
 
 \documentclass[a4paper,article,oneside,danish]{memoir}
 
@@ -11,6 +8,8 @@
 \usepackage[T1]{fontenc}
 \usepackage[danish]{babel}
 
+% textcomp til \textdollaroldstyle og \pounds. bbm til \mathbbm. De bliver brugt
+% i eksempler til konfiguration.
 \usepackage{textcomp}
 \usepackage{bbm}
 
@@ -18,14 +17,10 @@
 \usepackage[table]{xcolor}
 
 \usepackage{lmodern}
-\usepackage[scaled]{luximono}
-
-\usepackage{enumitem}
-
 \usepackage{microtype}
 
 \usepackage{tket}
-
+% Parse versionen af tket som lige er blevet hentet.
 \makeatletter
 \def\parse@tket@version#1/#2/#3 #4: #5\@nil{%
   \def\pTKETYear{#1}%
