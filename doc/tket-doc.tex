@@ -1,0 +1,843 @@
+% The svn info in the \svnid line below most accurately describe this
+% file.
+%
+% [Emacs] Time-stamp: <2011-06-03 16:04:51 villemoes> 
+% File: tket-doc.tex
+% Documentation of tket.sty, version: 2.0b
+% Current maintainer: Rasmus Villemoes <KASS02@TAAGEKAMMERET.au.dk>
+%
+% History at end of file.
+
+\documentclass[a4paper,article,oneside]{memoir}
+\usepackage[external,groups]{svn-multi}
+\svnid{$Id: tket-doc.tex 60 2011-06-03 14:06:53Z burner $}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[danish]{babel}
+\addto\extrasdanish{%
+  \def\sectionautorefname{Afsnit}%
+  \def\subsectionautorefname{Afsnit}%
+  \def\tableautorefname{Tabel}%
+}
+
+\usepackage{fixltx2e}
+\usepackage{textcomp}
+\usepackage{bbm}
+
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+
+%\usepackage[charter]{mathdesign}
+%\usepackage{fourier}
+\usepackage{lmodern}
+\usepackage[scaled]{luximono}
+
+%\usepackage{eso-pic}
+
+\usepackage{enumitem}
+
+\usepackage{microtype}
+
+\usepackage{listings}
+
+\usepackage{tket}
+
+\makeatletter
+\def\parse@tket@version#1/#2/#3 #4: #5\@nil{%
+  \def\pTKETYear{#1}%
+  \def\pTKETMonth{#2}%
+  \def\pTKETDay{#3}%
+  \def\pTKETVer{#4}%
+  \def\pTKETDesc{#5}
+}
+\expandafter\expandafter\expandafter\parse@tket@version\csname ver@tket.sty\endcsname\@nil
+\makeatother
+
+\usepackage{hyperref}
+%%%% Hyperref-opsætning
+\definecolor{nicered}{rgb}{.647,.129,.149}
+\hypersetup{colorlinks=true,
+  urlcolor=nicered,
+  bookmarksopen=true,
+  pdfauthor={Rasmus Villemoes},
+  pdftitle={Pakken tket},
+  unicode=true
+}
+
+
+%%%% Diverse rare småting
+\newcommand{\emaillink}[1]{\href{mailto:#1}{#1}}
+
+\newcommand{\pakkenavn}[1]{\textsf{#1}}
+\newcommand{\ptket}{\pakkenavn{tket}\xspace}
+\newcommand{\filnavn}[1]{\texttt{#1}}
+
+\definecolor{option}{rgb}{.7,.05,.15}
+\newcommand*{\descopt}[1]{%
+  \medskip\noindent\llap{\color{option}#1\hspace*{8pt}}\ignorespaces}
+\newcommand*{\optionname}[1]{\textcolor{option}{#1}}
+
+% Til brug i tabellen som viser \TKxyz og venner...
+\newcommand{\vismakro}[1]{\cmdprint{#1} & #1}
+\colorlet{TKoddrow}{green!30!white}
+\colorlet{TKevenrow}{green!50!white}
+
+
+
+%%%% Resultatfremvisning
+\definecolor{shadecolor}{gray}{.9}
+\newenvironment{resultat}{%
+  \begin{adjustwidth}{15mm}{15mm}%
+    \begin{qshade}%
+    }{%
+    \end{qshade}%
+  \end{adjustwidth}}
+
+%%%% Kodefremvisning
+% Baggrundsfarven til kodeeksempler
+\definecolor{kodebaggrund}{rgb}{1,1,0.6}
+% Hent definitionerne for sproget TeX, i dialekten LaTeX
+\lstloadlanguages{[LaTeX]TeX}
+% Nogle valg som gælder alle \lst-makroer.
+\lstset{language=[LaTeX]TeX,
+  backgroundcolor=\color{kodebaggrund},
+  keywordstyle={},
+  extendedchars=true,
+  inputencoding=utf8,
+  basicstyle=\small\ttfamily,
+  xleftmargin=0em,
+  xrightmargin=0em,
+  frame=single}
+% Dette dokument er skrevet med utf8-encoding. Det spiller ikke så
+% godt med listings, med mindre vi hjælper lidt. Tak, google.
+\lstset{literate={æ}{{\ae}}1
+  {ø}{{\o}}1
+  {å}{{\aa}}1
+  {Æ}{{\AE}}1
+  {Ø}{{\O}}1
+  {Å}{{\AA}}1
+  {»}{{\guillemotright}}1
+  {«}{{\guillemotleft}}1 }
+
+
+%%%%% \section og lign.
+\renewcommand{\chaptitlefont}{\secheadstyle} % For the ToC heading
+\settocdepth{subsubsection}
+\setlength{\cftsubsectionindent}{\cftsectionindent}
+\setlength{\cftsectionindent}{0pt}
+\setlength{\cftsectionnumwidth}{\cftsubsectionindent}
+\setlength{\cftsubsubsectionindent}{\dimexpr \cftsubsectionindent+\cftsubsectionnumwidth\relax}
+
+\renewcommand{\thesection}{\arabic{section}}
+\setsecnumdepth{subsubsection}
+\setsecheadstyle{\Large\bfseries\sffamily}
+\setsubsecheadstyle{\large\bfseries\sffamily}
+\setsubsubsecheadstyle{\bfseries\sffamily}
+\hangsecnum
+\setaftersubsecskip{1.0ex plus .2ex}
+\makepagestyle{tketdoc}
+\makeoddhead{tketdoc}{}{}{}
+\makeevenhead{tketdoc}{}{}{}
+\makeoddfoot{tketdoc}{}{\arabic{page}}{}
+\makeevenfoot{tketdoc}{}{\arabic{page}}{}
+
+
+
+\title{Pakken \ptket (\pTKETVer)}
+\author{Rasmus Villemoes}
+\date{\today}
+
+%\renewcommand{\thesection}{\arabic{section}}
+
+\hyphenation{krum-spring}
+
+\begin{document}
+
+\maketitle
+
+%\addtocontents{toc}{\protect\begin{multicols}{2}}
+\tableofcontents*
+
+\section{Indledning}
+\label{cha:indledning}
+
+Dette er dokumentationen for \LaTeX-pakken \ptket, som kan bruges til
+at lave forskellige \TK-relaterede ting i \LaTeX. Pakkens oprindelse
+er ukendt; dens oprindelige formål var at give let adgang til at
+skrive \hbox{TÅGEKAMMERET} med de såkaldte hoppe-danse-bogstaver,
+\TKET. Siden er pakken blevet udvidet med mange andre
+funktionaliteter. Blandt andet er der nu en
+anciennitetspræfiksberegner, og (modificerede udgaver af) de
+piktogrammer der nu om dage findes på bestyrelsens (og FU'ernes)
+T-shirts er også inkluderet. Se også~\autoref{sec:historik}.
+
+\section{Demonstration}
+\label{cha:demonstration}
+
+En del eksempler på hvad du kan med pakken ses af nedenstående
+eksempel.
+\lstinputlisting{eksempel-demo.tex}
+
+\begin{resultat}
+\input{eksempel-demo}
+\end{resultat}
+
+For at vide mere er du nødt til at læse videre.
+
+\section{Installation}
+\label{cha:installation}
+
+Den letteste måde at installere pakken er at få fat i zip-filen
+\filnavn{tket.tds.zip}, som indeholder alle de nødvendige filer. Den
+skal du pakke ud i roden af et »lokalt texmf-træ«. Hvor og hvordan du
+finder den mappe afhænger af din \TeX-distribution (\mbox{\TeX{}
+  Live}/\mbox{Mac\TeX}/\mbox{MiK\TeX}).
+
+\subsection{\TeX{} Live}
+\label{sec:tex-live}
+
+Hvis du bruger
+\href{http://www.tug.org/texlive/doc/texlive-en/texlive-en.html#x1-380003.4.7}{\TeX{}
+  Live} på Windows er den rigtige mappe formentlig noget i retning af
+\meta{\%USERPROFILE\%}{\ttfamily \textbackslash texmf}; på et
+linux-agtigt system er det formentlig \nolinkurl{~/texmf}. Du kan
+forvisse dig om den rigtige værdi ved at køre kommandoen {\ttfamily
+  kpsewhich -var-value TEXMFHOME} i en terminal.
+
+Når du har pakket zip-filen ud skal fildatabasen opdateres. Det gøres
+lettest ved at udføre kommandoen {\ttfamily mktexlsr}. På Windows er
+der måske en grafisk måde at gøre det på. 
+
+\subsection{Mac\TeX}
+\label{sec:mactex}
+
+Mac\TeX{} er dybest set bare \TeX{} Live pakket til Mac OSX. Den
+rigtige mappe er
+\href{http://www.tug.org/mactex/faq/#qm04}{formentlig} i dette
+tilfælde \nolinkurl{~/Library/texmf}.
+
+\subsection{MiK\TeX}
+\label{sec:miktex}
+
+Keine Ahnung.
+
+\section{Brug af pakken}
+\label{cha:brug-af-pakken}
+
+I sin enkleste form benyttes pakken ved simpelthen at skrive
+
+\begin{lstlisting}
+\usepackage{tket}
+\end{lstlisting}
+et sted i ens preamble. Pakken forudsætter at pakkerne
+\pakkenavn{xspace}, \pakkenavn{graphicx}, \pakkenavn{etoolbox} og
+\pakkenavn{xkeyval} er til stede (men dem har du højst sandsynligt
+allerede; ellers er det på høje tid at opdatere din
+\TeX-installation). Hvis du vil give »options« til
+\pakkenavn{graphicx}-pakken skal du, af \TeX niske årsager, hente
+denne pakke \emph{før} du henter \ptket-pakken (efter en pakke er
+hentet kan man nemlig ikke hente den igen med nye options).
+
+\subsection{Options}
+\label{sec:options}
+
+Pakken accepterer et valgfrit argument, som skal være en liste af
+såkaldte \emph{key-value}-par. Syntaksen er den samme som for makroen
+\cs{TKsetup} beskrevet i \autoref{sec:konfiguration} nedenfor. Med
+andre ord er
+
+\begin{lstlisting}[escapechar=|]
+\usepackage[|\meta{key-value-liste}|]{tket}
+\end{lstlisting}
+helt ækvivalent til
+
+\begin{lstlisting}[escapechar=|]
+\usepackage{tket}
+\TKsetup{|\meta{key-value-liste}|}
+\end{lstlisting}
+
+
+\section{Brugerkommandoer}
+\label{cha:brugerkommandoer}
+
+\subsection{\texorpdfstring{\cs{TKET}}{\textbackslash TKET} og venner}
+\label{sec:cstket-og-venner}
+
+
+\autoref{tab:simple-makroer} viser de simple forkortelsesmakroer som
+pakken stiller til rådighed. 
+
+\begin{table}[hbtp]
+  \centering
+  \caption{Oversigt over simple makroer fra \ptket.}
+  \label{tab:simple-makroer}
+  \rowcolors{1}{TKoddrow}{TKevenrow}
+  \begin{tabularx}{.9\textwidth}{l X l X}
+    \vismakro{\TK}       & \vismakro{\TKET}    \\
+    \vismakro{\TKETs}    & \vismakro{\TKETS}   \\
+    \vismakro{\TKAA}     & \vismakro{\TKETAA}  \\
+    \vismakro{\TKETsAA}  & \vismakro{\TKETSAA} \\  
+    \vismakro{\RemToR}   & \vismakro{\KASS}    \\
+    \vismakro{\CERM}     & \vismakro{\VC}      \\
+    \cs{TKurl} & 
+    \multicolumn{3}{l}{\ifodd\rownum
+      \cellcolor{TKoddrow}\else\cellcolor{TKevenrow}\fi \TKurl} 
+  \end{tabularx}
+\end{table}
+
+Definitionerne af disse makroer indeholder alle den ganske snedige
+\cs{xspace} (fra pakken \pakkenavn{xspace}) i enden, og kan derfor
+bruges umiddelbart i almindelig tekst uden at man skal tilføje tomme
+tuborgpar \texttt{\{\}} eller gøre andre krumspring. Hvis du ikke ved
+hvad dette betyder, så se enten \pakkenavn{xspace}-dokumentationen
+eller følgende eksempel.
+
+\lstinputlisting{eksempel-xspace.tex}
+Med \pakkenavn{xspace}-funktionalitet giver dette
+\begin{resultat}
+\input{eksempel-xspace}
+\end{resultat}  
+Uden dette ville vi have fået
+{% This is a hack to deactivate the \xspace mechanism. Don't do this
+ % at home...
+\let\xspace\relax %
+\begin{resultat}
+\input{eksempel-xspace}
+\end{resultat}
+}
+\noindent Med andre ord opfører makroerne sig som de skal. (Bemærk at
+der \emph{ikke} indsættes mellemrum når makroen efterfølges af fx et
+komma eller punktum.)
+
+\subsection{Ikoner}
+\label{sec:ikoner}
+
+Piktogrammerne, kendt fra BESTs og FU'ernes T-shirts, er tilgængelige
+via makroerne vist i \autoref{tab:ikon}. De er vist på en farvet
+baggrund for at demonstrere deres gennemsigtighed.
+
+\begin{table}[hbt]
+  \centering
+  \caption{\TK-ikoner.}
+  \label{tab:ikon}
+  \newcolumntype{Y}{>{\hsize=1.2\hsize\hfill}X<{\hfill\strut}}
+  \newcolumntype{Z}{>{\hsize=0.6\hsize}X}
+  \colorbox{green!30!white}{%
+    \begin{tabularx}{.7\textwidth}{l Y Z l Y}
+      \vismakro{\ikonFORM} && \vismakro{\ikonNF} \\
+      \vismakro{\ikonCERM} && \vismakro{\ikonVC} \\
+      \vismakro{\ikonSEKR} && \vismakro{\ikonPR} \\
+      \vismakro{\ikonKASS} && \vismakro{\ikonFU}
+    \end{tabularx}
+  }
+\end{table}
+
+Faktisk er ovenstående ikke helt de billeder der findes på
+T-shirtsene. De er nemlig ikke i sig selv egnede til at blive skaleret
+ned til en størrelse så de kan indgå som symboler i løbende tekst --
+stregtykkelsen er for lille, og mange detaljer bliver nærmest
+usynlige. De forenklede versioner, som vi kalder ikoner, i
+\autoref{tab:ikon} blev oprindelig lavet til brug i regelhæftet til
+»Kammerludo«.
+
+% Disse makroer tager et valgfrit argument. Dette bliver brugt som
+% parametre til \cs{includegraphics}-kaldet. Du kan altså fx skrive
+% \lstinputlisting{eksempel-pikto.tex}
+% og opnå
+% \begin{resultat}
+%   \input{eksempel-pikto}  
+% \end{resultat}
+% Hvis det valgfri argument udelades kaldes \cs{includegraphics} som
+% \begin{lstlisting}[escapechar=|]
+%   \includegraphics[height=|\meta{værdi af nøglen \optionname{ludo}}|]{CERM-ludo}
+% \end{lstlisting}
+
+% Du vil formentlig altid ønske at skalere ned på den ene eller anden
+% måde, idet grafikfilernes naturlige størrelse er ret stor. På
+% side~\pageref{cha:tekniske-detaljer} er (en lysere version) af fanen
+% inkluderet som vandmærke ved naturlig størrelse.
+
+\subsection{Anciennitet}
+\label{sec:anciennitet}
+
+Når man når en vis \TK-alder kan det være svært at huske den rette
+potens. Der er også situationer hvor noget \LaTeX-kode må forventes at
+blive genbrugt (eksempelvis sangtekster), og så ville det være rart
+hvis den slags blev automatisk opdateret.
+
+\begin{lstlisting}[escapechar=|]
+  \TKprefix{|\meta{generalforsamlingsår}|}
+\end{lstlisting}
+
+Makroen \cs{TKprefix} tager et obligatorisk argument, som skal være et
+to- eller firecifret årstal der beskriver hvornår den pågældende titel
+blev opnået. Et firecifret tal (mindst~1956) bruges som det er, mens
+et tocifret tal fortolkes som et år i intervallet 1956--2055. Tal
+mellem 100 og 1955 udløser fejl. Som eksempel vil
+
+\lstinputlisting{eksempel-prefix1.tex}
+give resultatet
+
+\begin{resultat}
+\input{eksempel-prefix1}
+\end{resultat}
+
+Præfikset beregnes relativt til \emph{årstallet} for en
+generalforsamling, som man i de fleste tilfælde vil sætte til det
+årstal den nuværende \textsc{best}yrelse blev valgt. Det kan enten
+sættes når pakken hentes, eller vha. makroen \cs{TKsetup}. Se mere
+herom i \autoref{sec:konfiguration} herunder.
+
+I en tidligere version kunne man give \cs{TKprefix} et valgfrit
+argument for lokalt at vælge et andet referenceår. Den funktionalitet
+er \hyperref[sec:-og-]{fjernet af robusthedshensyn}.
+
+Makroen
+\begin{lstlisting}
+  \TKgetgf
+\end{lstlisting}
+printer det årstal der pt. benyttes som reference.
+
+
+\section{Konfiguration}
+\label{sec:konfiguration}
+
+Forskellige aspekter af \ptket kan konfigureres.
+
+\begin{lstlisting}[escapechar=|]
+  \TKsetup{|\meta{key-value-liste}|}
+\end{lstlisting}
+
+Al konfiguration foregår via makroen \cs{TKsetup}. Denne tager netop
+et argument, som skal være en kommasepareret liste af par af formen
+  \meta{key}\texttt{=}\meta{value}.
+\autoref{tab:keyval} viser de forskellige nøgler og deres
+standardværdier.
+
+% \TKsetup
+\begin{table}[hbtp]
+  \centering
+  \caption{Nøgler og standardværdier for \cs{TKsetup}.}
+  \label{tab:keyval}
+  \begin{tabular}[c]{>{\ttfamily}l l}
+    \multicolumn{1}{l}{Nøgle} & Standardværdi \\ \hline
+    epsilon        & \cs{ensuremath}\{\cs{epsilon}\} \\
+    dollar         & \cs{\$} \\
+    cermC          & C    \\
+    vcC            & C    \\
+    ikonh          & 1.0em  \\
+    eksponent      & jep \\
+    % AA           & false \\
+    gf             & \small (se forklaring i teksten)
+  \end{tabular}
+\end{table}
+
+De enkelte nøgler beskrives nedenfor. Efter denne gennemgang er der et
+konkret eksempel på brugen af \cs{TKsetup}.
+% Nøgler der er markeret som »boolean« kan kun gives værdierne »true«
+% og »false«.
+Bemærk at alle ændringer er lokale til indeværende
+\TeX-gruppe. Specielt vil ændringer foretaget inden i et environment
+altså kun have betydning dér, hvilket kan være meget nyttigt.
+
+\descopt{epsilon} Denne nøgle kontrollerer det tegn der bruges i
+stedet for »e« i ordet RemToR når makroen \cs{RemToR} benyttes. Mange
+har som en del af deres standardkode et par besværgelser der bytter om
+på betydningen af \cs{epsilon} ($\epsilon$) og \cs{varepsilon}
+($\varepsilon$), fordi den anden mulighed er et »bedre« epsilon. Alt
+afhængig af disse indstillinger, hvilken font du benytter og hvilket
+\RemToR-e du foretrækker (som altsammen er uden for \ptket{}s kontrol)
+kan du måske have lyst til at sætte \optionname{epsilon}.
+
+\descopt{dollar} Denne nøgle bestemmer hvilket tegn der bruges (to
+gange) i \cs{KASS}. Standarden er, som det fremgår, et simpelt
+dollartegn. Vær opmærksom på at både \cs{textdollaroldstyle}
+(\textdollaroldstyle) og \cs{pounds} (\pounds) kræver
+\pakkenavn{textcomp}-pakken.
+
+\descopt{cermC} Hvis man ønsker at skrive CERM med et anderledes »C«
+kan denne nøgle sættes til fx
+\cs{ensuremath}\texttt{\{}\cs{mathbb}\texttt{\{C\}\}}. Du skal
+selvfølgelig sørge for at hente en pakke som stiller den pågældende
+font til rådighed (fx \pakkenavn{amsfonts}). Med standardværdien er
+der ingen forskel på at skrive \cs{CERM} og \texttt{CERM} i ens
+\LaTeX-kode.
+
+\descopt{vcC} Tilsvarende for C'et i VC.
+
+\descopt{C} Denne nøgle kan bruges til at sætte begge de to
+ovenstående til en fælles værdi.
+
+\descopt{ikonh} Højden som ikonerne som standard skaleres
+til. Som værdi kan du bruge alt hvad der udtrykker en længde i \LaTeX,
+fx »10pt«, »2.5ex«, »30mm«, eller endda udtryk som
+»\cs{baselineskip}-1pt«. Hvis du bruger en relativ enhed (»em« eller
+»ex«) følger piktogrammernes størrelse med størrelsen af den omgivende
+tekst; dette kan fx være meget nyttigt i overskrifter. Standardværdien
+på 1.0em svarer nogenlunde til højden af en tekstlinje.
+
+\descopt{eksponent} Hvorvidt »tipeksponenter« produceret af
+\cs{TKprefix} skal skrives hævet som i {\TKprefix{2001}\KASS} eller
+som et tal efter T som i
+{\TKsetup{eksponent=nejtak}\TKprefix{2001}{KASS}}. (Denne kontrollerer
+også om \cs{TKprefix}\texttt{\{2040\}} giver \TKprefix{2040} eller
+{\TKsetup{eksponent=niks}\TKprefix{2040}}.) Standardopførslen er at
+eksponenter skrives hævet. Kan gives værdierne »\texttt{true}« og
+»\texttt{false}«.
+% \descopt{AA} Boolean. Hvis denne er sat benytter \cs{TK}-makroerne
+%   dobbelt-A i stedet for bolle-Å, mens deres \texttt{*}-udgaver gør
+%   det modsatte. Standardværdien er »false«.
+
+\descopt{gf} Denne nøgle bruges til at sætte årstallet for den
+generalforsamling der bruges som reference i makroen
+\cs{TKprefix}. Hvis man vil have pt. gyldige titler skal denne sættes
+til det årstal hvor den nuværende bestyrelse blev valgt. Hvis man ikke
+i løbet af preamblen selv angiver en værdi, bruger pakken følgende
+heuristik: I oktober, november og december er det indeværende år, i
+alle andre måneder er det året før. Hvis dags dato er mellem den
+15. og 30. september skriver pakken en advarsel til terminalen og
+logfilen. Som en speciel feature kan man også angive værdien
+\texttt{*}, som betyder »sæt referenceåret til det som den netop
+beskrevne heuristik angiver«.
+
+\subsection{Eksempel}
+\label{sec:eksempel}
+
+Vi vil lave et dokument som viser titler som de var i forbindelse med
+50-årsjubilæet i 2006. Dette blev afholdt et par uger efter
+generalforsamlingen 2006. Vi vil gerne skrive CERM som
+$\mathbbm{C}$ERM, men VC skal blot skrives med normale bogstaver. Endelig
+vil vi gerne benytte os af dobbeltstregede dollartegn til \KASS. Det
+kan opnås ved at skrive
+\lstinputlisting{eksempel-konf.tex}
+i preamblen, sammen med passende \cs{usepackage}-kald for at stille
+\cs{mathbbm}-fonten og \textdollaroldstyle{} til rådighed.
+
+
+\subsection{Fjollede bemærkninger}
+\label{sec:fjoll-bemarkn}
+
+Man kan også bruge »on«, »yes«, »ja«, »jatak«, »jep«, »off«, »no«,
+»nej«, »nejtak« og »niks« som værdier til en boolean nøgle (pt. er kun
+\optionname{eksponent} en boolean nøgle). Man kan også helt udelade en
+værdi, hvilket slår den pågældende nøgle til.
+
+Ved misbrug af \optionname{dollar}-optionen kan man frembringe diverse ord:\bigskip
+
+\noindent
+\newcommand*{\fjolleord}[1]{#1 & \TKsetup{dollar=#1}\KASS &}
+\begin{tabularx}{\textwidth}{llX}
+  Hvis \optionname{dollar} er\ldots &\ldots giver \cs{KASS} \ldots &
+  \ldots som betyder\\ \hline
+  \fjolleord{NO} bogstavet »O« -- på den fede måde \\
+  \fjolleord{OS} generisk røg \\
+  \fjolleord{RENS} et vaskeri \\
+  \fjolleord{RET} Diner Transportable(?) \\
+  \fjolleord{SUS} kick som humanister får af at lege med grammatik \\
+  \fjolleord{MEL} øøh\ldots
+\end{tabularx}
+
+
+\section{Tekniske detaljer}
+\label{cha:tekniske-detaljer}
+
+% \AddToShipoutPictureBG*{%
+%   \includegraphics{FUlogo-ludo-lys}}
+
+Der er gjort temmelig meget for at gøre denne pakke brugervenlig og
+uden overraskelser; den er endda en smule intelligent. Dette kapitel
+indeholder nogle tekniske bemærkninger.
+
+\subsection{Navnerum}
+\label{sec:navnerum}
+
+Til interne makroer benyttes \cs{tket@} som præfiks. Dette kolliderer
+ikke med nogen kendte pakker. Det samme gælder alle de offentlige
+makroer.  De korte strenge \cs{TK} og \cs{VC} kunne risikere at være
+brugt i anden sammenhæng, men de længere makronavne er meget
+usandsynlige at finde i en ikke-\TK-relateret kontekst.
+
+\subsection{* \& [ ]}
+\label{sec:-og-}
+
+Tidligere versioner af denne pakke havde \texttt{*}-varianter af
+\cs{TK}-makroerne, fx \cs{TKET*}, som var den måde man kunne opnå
+stavningen med AA, og desuden var der en metode til at bytte rundt på
+betydningen af de to varianter (så \cs{TKET} brugte AA, mens
+\cs{TKET*} brugte Å). Imidlertid er den slags makroer svære at få til
+at opføre sig rigtigt i alle sammenhænge, og det blev derfor besluttet
+at droppe dem til fordel for et ekstra sæt af makroer med \texttt{AA}
+i enden.
+
+En tilsvarende bemærkning angår \cs{TKprefix}: Man kunne tidligere
+give et optional argument for, for et enkelt kald af makroen, at ændre
+referenceåret, men \LaTeX s måde at håndtere den slags på er desværre
+ikke helt robust. Derfor er også den mulighed skrottet. Så hvad man
+tidligere kunne skrive som
+\begin{lstlisting}
+  \TKprefix[2003]{1998}
+\end{lstlisting}
+skal altså nu skrives som
+\begin{lstlisting}
+  {\TKsetup{gf=2003}\TKprefix{1998}}
+\end{lstlisting}
+eller, en smule kortere,
+\begin{lstlisting}
+  {\TKsetgf{2003}\TKprefix{1998}}
+\end{lstlisting}
+\fboxsep=0pt
+(bemærk det yderste sæt $\{
+\vcenter{\hbox{\includegraphics[height=1.4em]{Tuborg.png}}}
+\}$-parenteser som holder ændringen lokal.)
+
+\subsection{\TKETpdf og \ikonCERMpdf i overskrifter}
+\label{sec:tket-i-overskrifter}
+
+Det er i almindelighed ikke noget problem at bruge \cs{TK}-makroerne
+og ikonerne i overskrifter som denne: Både indholdsfortegnelsen og
+overskriften ser (forhåbentlig) ud som forventet. Imidlertid kan der
+opstå et problem hvis man bruger pakken \pakkenavn{hyperref}. Denne
+pakke laver, blandt meget andet, en elektronisk indholdsfortegnelse i
+pdf-filen. I denne kan kun almindelig tekst bruges, og
+hoppe-danse-bogstaverne og ikonerne tæller ikke som almindelig
+tekst. Hvis man får en fejl som
+\begin{lstlisting}
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\TKET' on input line 430.
+\end{lstlisting}
+og pdf-bogmærket kun viser »og i overskrifter« når man prøver
+\begin{lstlisting}
+\subsection{\TKET og \ikonCERM i overskrifter}
+\end{lstlisting}
+er løsningen er at give to
+forskellige tekststrenge; en som \LaTeX{} spiser, og en som bruges i
+bogmærket. Det gøres ved at skrive
+\begin{lstlisting}
+\subsection{\texorpdfstring{\TKET}{TÅGEKAMMERET} og
+  \texorpdfstring{\ikonCERM}{CERM} i overskrifter}
+\end{lstlisting}
+
+Hvis \ptket opdager at \pakkenavn{hyperref}-pakken er i brug laves der
+automagisk et antal \cs{...pdf}-makroer så ovenstående kan forkortes
+til det der faktisk er brugt i denne manual:
+\begin{lstlisting}
+\subsection{\TKETpdf og \ikonCERMpdf i overskrifter}
+\end{lstlisting}
+Mere præcist betyder »opdager« at \ptket tjekker \cs{AtBeginDocument}
+hvorvidt \pakkenavn{hyperref} er hentet, og handler
+derefter. Rækkefølgen hvori \pakkenavn{hyperref} og \ptket hentes er
+underordnet. Mere præcist betyder »et antal« at der laves
+\cs{...pdf}-varianter af alle makroerne i \autoref{tab:simple-makroer}
+og \autoref{tab:ikon}. For standarddefinitionen af \cs{KASS} er det
+egentlig overflødigt, men hvis \optionname{dollar} sættes til noget
+besynderligt kan det være nødvendigt.
+
+\begin{quote}
+  \itshape  Disse \cs{...pdf}-makroer er kun lavet for at gøre det nemt at løse
+  et problem ved blot at tilføje tre bogstaver til makrokaldet. Hvis
+  du ikke har et problem skal du ikke prøve at løse det.
+\end{quote}
+
+Makroen \cs{TKurl} producerer, hvis \pakkenavn{hyperref}-pakken er i
+brug, et hyperlink til \TKETs hjemmeside, \TKurl.
+
+\subsubsection{To bemærkninger om \RemToRpdf}
+\label{sec:bemarkn-om-remt}
+
+Makroen \cs{RemToR} er forsynet med en lille snedighed, som er
+relevant når \RemToR skrives med fed skrift. Se selv:
+\lstinputlisting{eksempel-RemToR.tex}
+
+\begin{resultat}
+\input{eksempel-RemToR}
+\end{resultat}
+
+Snedigheden består i at vi tjekker om omgivelserne er fede, og i så
+fald sørger for at al eventuel matematik også skrives med fed. Det er
+især relevant i overskrifter som den herover.
+
+Den anden bemærkning angår makroen \cs{RemToRpdf}, og er altså kun
+relevant for brugere af \pakkenavn{hyperref}-pakken som bekymrer sig
+om pdf-bogmærker. Som det fremgår af nærværende fil kan det godt lade
+sig gøre at få et rigtigt epsilon i bogmærket. Det kræver blot at
+\pakkenavn{hyperref} er loadet med \optionname{unicode} som option
+(man får så $\epsilon$ med \cs{textepsilon}). Makroen \cs{RemToRpdf}
+er lavet til at bruge \cs{ifHy@unicode} til at afgøre om der skal
+bruges \cs{textepsilon} eller blot »e«.
+
+\subsection{Anciennitet og email}
+\label{sec:anciennitet-og-email}
+
+En af fordelene ved at droppe det valgfri argument til \cs{TKprefix}
+var at makroen kunne gøres, i \TeX-lingo, »fully expandable«. Det
+betyder at den kan bruges i ellers skrøbelige steder som fx i første
+argument til \cs{href}:
+\lstinputlisting{eksempel-href}
+(Hold musen over teksten nedenfor for at se emailadressen som et »tooltip«.)
+\begin{resultat}
+\input{eksempel-href}
+\end{resultat}
+Som en helt særlig feature ignoreres værdien af \optionname{eksponent}
+i denne kontekst, så emailadressen faktisk er gyldig. Ellers ville
+resultatet blive
+\begin{resultat}
+\input{eksempel-href2}
+\end{resultat}
+
+\subsection{Historik}
+\label{sec:historik}
+
+Den nuværende vedligeholder af pakken er \TKprefix{2002}\KASS, Rasmus
+Villemoes, som nemmest kan kontaktes via emailadressen
+\emaillink{KASS0203@TAAGEKAMMERET.dk}. Bugrapporter, forslag til nye
+features og andre kommentarer modtages gerne.
+
+T-shirtpiktogrammerne er oprindelig tegnet af \TKprefix{2005}PR,
+Katrine Skovbo, i 2006. Efterfølgende blev de digitaliseret og
+modificeret af \TKprefix{2005}FORM, Dan Beltoft, så de var brugbare i
+en størrelse svarende til højden af løbende tekst. Det er disse
+modificerede versioner som stilles til rådighed af denne pakke. Hvis
+du har brug for den grafik der faktisk bruges til at producere
+T-shirts må du kontakte \TKETs bestyrelse.
+
+Før maj 2009 fandtes der diverse unummererede versioner af filen
+\filnavn{tket.sty} rundt omkring, som definerede varierende delmængder
+af makroerne \cs{TK}, \cs{TKET}, \cs{TKETs} og \cs{TKETS}. Disse
+definitioner var ikke altid indbyrdes kompatible. Især genitivformerne
+var et problem; makroen \cs{TKETS} kunne både give \TKETS, \TKETs og
+\TKET{}s.
+
+Det nuværende projekt startede som et forsøg på at forene,
+standardisere, og udvide disse mange versioner, og, fra version 2.0,
+dokumentere anvendelsen. Uddrag af historikken:
+
+\begin{description}
+\item[2.1] (2011-06-03) Stort set komplet reimplementering:
+  \begin{itemize}
+  \item Nu med dokumentation.
+  \item Alle \texttt{*}-varianter og valgfri argumenter endegyldigt droppet.
+  \item Konfiguration via \textit{key-value}-syntaks.
+  \item Ikoner inkluderet.
+  \item Mere robust implementation af mange interne detaljer.
+  \end{itemize}
+\item[1.0] (2009-06-11) Første officielle frigivelse.
+\item[0.6, 0.5, 0.4, 0.3, 0.2] Diverse, i dag, irrelevante trin på vejen.
+%   Den eneste
+%   forskel på denne og v0.6 er versionsnummeret (og datoen).
+% \item[v0.6] (2009-06-01) Den første semi-officielle frigivelse, som
+%   afventer godkendelse fra nuværende BEST. Denne version ændrede
+%   kravet om pakken \pakkenavn{graphicx} til \pakkenavn{graphics}, som
+%   det anbefales i \pakkenavn{graphic(s|x)}-dokumentationen. Desuden
+%   introduceredes præfiks-udregneren \cs{TKprefix}. Pakken tager nu et
+%   valgfrit argument, som sætter det oprindelige referenceår; men hvis
+%   det udelades har pakken dog en rimelig intelligent måde at gætte
+%   hvilket år den nuværende BEST blev valgt (som så bliver
+%   referenceåret).
+% \item[v0.5] (2009-05-28) Diverse bugs i v0.4 fikset, og makroerne
+%   \cs{TKxyz} blev opbygget mere intelligent. Desuden blev \cs{RemToR}
+%   og \cs{KASS} gjort konfigurerbare ved at tilføje makroer
+%   \cs{RemToR(var)epsilon} og \cs{KASS(var)dollar}, som brugeren kan
+%   \cs{renewcommand}'e.
+% \item[v0.4] (2009-05-26) Tilføjede \cmdprint{*}-varianter af alle
+%   tidligere makroer. Denne version var temmelig bugfyldt pga. forkert
+%   brug af \cs{xspace} sammen med \cs{@ifstar}!
+% \item[v0.3] (2009-05-23) Makroerne \cs{RemToR}, \cs{KASS} og \cs{TKETs} tilføjet.
+% \item[v0.2] (2009-05-21) Tilføjede krav om pakkerne
+%   \pakkenavn{graphicx} og \pakkenavn{xspace}, tilføjede \cs{xspace}
+%   til makrodefinitionerne.
+\item[0.1] (2009-05-20) Tilføjede \cs{ProvidesPackage}. Stiller
+  makroerne \cs{TK}, \cs{TKET} og \cs{TKETS} til rådighed som
+  tidligere versioner.
+\end{description}
+
+\vfill
+\svnexternal[ptket]{{tket.sty}}
+\noindent\small\itshape 
+Sidst redigeret \svnyear-\svnmonth-\svnday.%
+\svnsetcg{ptket}
+Hører til svn-revision~\svncgrev{} (\svncgyear-\svncgmonth-\svncgday) af \texttt{tket.sty}.
+
+%\addtocontents{toc}{\protect\end{multicols}}
+
+\end{document}
+
+% Version history:
+%
+% v2.0, 2011-05-??: Major revision:
+%
+% (1) Now there is official documentation in the form of the file
+% tket-doc.pdf. Henceforth, the change history will only be listed in
+% the documentation (so this section of the file will not be updated
+% anymore).
+%
+% (2) Removed star versions of \KASS and \RemToR. Macros with star
+% variants are automatically more fragile than ordinary macros, and
+% there wasn't really any need for these variants.
+%
+% (3) The \KASS and \RemToR macros did not contain \xspace in their
+% definition. Fixed.
+%
+% (4) Changed the way the package is configured. It now uses
+% key-value-syntax in the optional argument. Also introduced the macro
+% \TKsetup which can be used in the document to change the settings.
+%
+% (5) \TKprefix has been completely rewritten. In ordinary use, it is
+% now "completely expandable", which is A Good Thing. A boolean flag
+% `exponent' controls how T^4O is written (T$^{4}$O vs. T4O). The
+% non-superscript version is automatically used inside the first
+% argument of a \href{}{} (which is a cool feature!).
+%
+% (6) Now includes small pictograms for each title in BEST (a crown, a
+% pair of crossed rokokoclubs, a horn etc.), and also a pictogram for
+% a generic FU, a TK-flag.
+%
+% (7) Renamed \setTKyear and \getTKyear to \TKsetyear, \TKgetyear to
+% keep within the \TK... namespace. (\KASS and \RemToR are the only
+% exceptions).
+%
+% (8) Lots of other technical improvements, which I don't
+% remember. This document should document all features. 
+%
+% v1.0, 2009-06-11: First official release. The only difference
+% between this and v0.6 is the version number (and date).
+%
+% v0.6, 2009-06-01: First semi-official release, pending approval by
+% the current BEST. This version changed the requirement of the
+% package graphicx to graphics (as recommended in the graphic(s|x)
+% documentation). A "prefix calculator", \TKprefix was introduced,
+% along with public macros \setTKyear and \getTKyear. The package now
+% takes an optional argument setting the initial reference year, but
+% has a rather intelligent way of guessing the correct reference year
+% if this argument is omitted.
+%
+% v0.5, 2009-05-28: Corrected the bugs in v0.4, and built the \TKxyz
+% macros in a more intelligent way. Also made the \RemToR and \KASS
+% macros configurable by adding user-renewcommand'able macros
+% \RemToR(var)epsilon and \KASS(var)dollar.
+%
+% v0.4, 2009-05-26: Added *-variants of all previous macros. This
+% version was very buggy because of wrong use of \xspace in
+% conjunction with \@ifstar!
+%
+% v0.3, 2009-05-23: Added macros \RemToR and \KASS and \TKETs.
+%
+% v0.2, 2009-05-21: Added requirements for the packages graphicx and
+% xspace, added \xspace to the macro definitions.
+%
+% v0.1, 2009-05-20: Added \ProvidesPackage information. Provides the
+% macros \TK, \TKET, \TKETS just as earlier versions.
+%
+% Unnumbered versions prior to May 2009: There existed various
+% editions of the file tket.sty here and there. The present file is an
+% attempt to unify, standardize and extend these.
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% mode: auto-revert
+%%% TeX-master: t
+%%% End: 
+
+
