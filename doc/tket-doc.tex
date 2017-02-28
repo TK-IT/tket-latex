@@ -19,6 +19,7 @@
 
 \usepackage{lmodern}
 \usepackage{microtype}
+\usepackage{multirow}
 
 \usepackage{tket}
 % Parse versionen af tket som lige er blevet hentet.
@@ -65,9 +66,8 @@
 \newcommand*{\optionname}[1]{\textcolor{option}{#1}}
 
 % Til brug i tabellen som viser \TKxyz og venner...
-\newcommand{\vismakro}[1]{\cmdprint{#1} & #1}
+\newcommand{\vismakro}[2][]{\cmdprint{#2} & #1#2}
 
-%\setlength{\FrameSep}{3em}
 
 %%%% Kode- og resultatfremvisning
 \usepackage{mdframed}
@@ -243,22 +243,20 @@ komma eller punktum.)
 \label{sec:ikoner}
 
 Piktogrammerne, kendt fra BESTs og FU'ernes T-shirts, er tilgængelige
-via makroerne vist i \vref{tab:ikon}. De er vist på en farvet
-baggrund for at demonstrere deres gennemsigtighed.
-
+via makroerne vist i \vref{tab:ikon}
+\newcolumntype{Y}{>{\hsize=1.2\hsize\hfill}X<{\hfill\strut}}
+\newcolumntype{Z}{>{\hsize=0.6\hsize}X}
 \begin{table}[hbt]
   \centering
   \caption{\TK-ikoner.}
   \label{tab:ikon}
-  \newcolumntype{Y}{>{\hsize=1.2\hsize\hfill}X<{\hfill\strut}}
-  \newcolumntype{Z}{>{\hsize=0.6\hsize}X}
   \begin{tabularx}{.7\textwidth}{l Y Z l Y}
     \vismakro{\ikonFORM} && \vismakro{\ikonNF} \\
     \vismakro{\ikonCERM} && \vismakro{\ikonVC} \\
     \vismakro{\ikonSEKR} && \vismakro{\ikonPR} \\
-    \vismakro{\ikonKASS} && \vismakro{\ikonFU}
+    \vismakro{\ikonKASS} && \vismakro{\ikonINKA} \\
+    \vismakro{\ikonFU}
   \end{tabularx}
-
 \end{table}
 
 Faktisk er ovenstående ikke helt de billeder der findes på
@@ -268,6 +266,36 @@ stregtykkelsen er for lille, og mange detaljer bliver nærmest
 usynlige. De forenklede versioner, som vi kalder ikoner, i
 \vref{tab:ikon} blev oprindelig lavet til brug i regelhæftet til
 \enquote{Kammerludo}.
+
+\subsection{\KASSpdf of INKA ikoner}
+\label{sec:kass-og-inka}
+
+Da man i 2013 valgte at udvidde bestyrrelsen med en INKAsator, besluttede man
+også at at rokkokøllerne der tidligere har tilhørt \KASS nu skulle tilhøre INKA.
+Der blev lavet en ny kugleramme til \KASS som erstatning. Denne pakke har de nye
+tildelinger. For at historiske dokumenter stadig virker nye versioner af denne pakke
+får man forskellige piktogrammer alt efter om \texttt{gf} er sat til før eller
+efter 2013. Se \vref{tab:kass-og-inka-ikon}. Det er muligt at gennemtvinge at
+\KASS altid har kuglerammen ved at sætte \texttt{koelleKASS=nej}.
+
+\begin{table}[hbt]
+  \centering
+  \caption{\KASS- og INKA-ikoner.}
+  \label{tab:kass-og-inka-ikon}
+  \newcommand{\testtext}[2]{%
+    \multirow{2}{*}{#2} & \vismakro[#1]{\ikonKASS} \\
+    & \vismakro[#1]{\ikonINKA} \\
+  }
+  \begin{tabularx}{\textwidth}{r l X Z l X}
+    \testtext{}{Standard i dag} \\
+    \testtext{\TKsetup{gf=2013}}{Med \texttt{gf=2013} eller før.} \\
+    \testtext{\TKsetup{koelleKASS=niks,gf=2013}}{Med \texttt{gf=2013,
+    koelleKASS=niks}} \\
+    & \vismakro{\ikonKASSkoeller}  \\
+    & \vismakro{\ikonKASSkugler}
+  \end{tabularx}
+\end{table}
+
 
 % Disse makroer tager et valgfrit argument. Dette bliver brugt som
 % parametre til \cs{includegraphics}-kaldet. Du kan altså fx skrive
@@ -357,7 +385,8 @@ standardværdier.
     ikonh          & 1.0em  \\
     eksponent      & jep \\
     % AA           & false \\
-    gf             & \small (se forklaring i teksten)
+    gf             & \small (se forklaring i teksten)\\
+    koelleKASS     & ja
   \end{tabular}
 \end{table}
 
@@ -428,6 +457,9 @@ alle andre måneder er det året før. Hvis dags dato er mellem den
 logfilen. Som en speciel feature kan man også angive værdien
 \texttt{*}, som betyder \enquote{sæt referenceåret til det som den netop
 beskrevne heuristik angiver}.
+
+\descopt{koelleKASS} Bestemmer om \cs{ikonKASS} skal give \ikonKASSkoeller eller
+\ikonKASSkugler når \texttt{gf=<2013}. Se \vref{sec:kass-og-inka}.
 
 \section{Eksempel}
 \label{sec:eksempel}
