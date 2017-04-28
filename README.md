@@ -34,12 +34,12 @@ Keine Ahnung.
 # Dokumentationen
 Dokumentationen følger med og du kan finde den ved at køre `texdoc tket` i en
 terminal. Foretrækker du at læse dokumentationen online, er den også
-[tilgængelige her](https://github.com/TK-IT/tket-latex/blob/master/doc/tket-doc.pdf).
-Vær opmærksom på at den online dokumentation ikke nødvendigvis passer til den
+[tilgængelig her](https://github.com/TK-IT/tket-latex/blob/master/doc/tket-doc.pdf).
+Vær opmærksom på at dokumentationen på nettet ikke nødvendigvis passer til den
 version af pakken du har installeret.
 
-# Build systemet
-Makefilen kompilere dokumentationen og pakker alle de nødvendige filer som
+# Build-systemet
+Makefilen kompilerer dokumentationen og pakker alle de nødvendige filer som
 `tket.tds.zip`.
 
 ## Udgivelse af en ny version
