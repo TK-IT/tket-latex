@@ -120,35 +120,39 @@ For at vide mere er du nødt til at læse videre.
 
 \chapter{Installation}
 \label{cha:installation}
-
+% Når du opdater denne sektion, må du også gerne opdatere README.md
 Den letteste måde at installere pakken er at få fat i zip-filen
-\filnavn{tket.tds.zip}, som indeholder alle de nødvendige filer. Den
-skal du pakke ud i roden af et \enquote{lokalt texmf-træ}. Hvor og hvordan du
-finder den mappe afhænger af din \TeX-distribution (\mbox{\TeX{}
+\filnavn{tket.tds.zip}, som indeholder alle de nødvendige filer. Den nyeste
+version kan hentes fra \url{https://github.com/TK-IT/tket-latex/releases}.
+
+Den skal du pakke ud i roden af et \enquote{lokalt texmf-træ}. Hvor og hvordan
+du finder den mappe afhænger af din \TeX-distribution (\mbox{\TeX{}
   Live}/\mbox{Mac\TeX}/\mbox{MiK\TeX}).
 
-\section{\TeX{} Live}
+\section{\TeX{} Live eller Mac\TeX}
 \label{sec:tex-live}
 
 Hvis du bruger
 \href{http://www.tug.org/texlive/doc/texlive-en/texlive-en.html#x1-380003.4.7}{\TeX{}
   Live} på Windows er den rigtige mappe formentlig noget i retning af
-\meta{\%USERPROFILE\%}{\ttfamily \textbackslash texmf}; på et
-linux-agtigt system er det formentlig \nolinkurl{~/texmf}. Du kan
-forvisse dig om den rigtige værdi ved at køre kommandoen {\ttfamily
+\meta{\%USERPROFILE\%}{\ttfamily \textbackslash texmf}.
+
+På et Linux-agtigt system er det formentlig \nolinkurl{~/texmf}.
+
+På macOS er \href{http://www.tug.org/mactex/faq/#qm04}{det formentligt}
+\nolinkurl{~/Library/texmf}.
+
+Du kan forvisse dig om den rigtige værdi ved at køre kommandoen {\ttfamily
   kpsewhich -var-value TEXMFHOME} i en terminal.
 
 Når du har pakket zip-filen ud skal fildatabasen opdateres. Det gøres
 lettest ved at udføre kommandoen {\ttfamily mktexlsr}. På Windows er
 der måske en grafisk måde at gøre det på. 
 
-\section{Mac\TeX}
-\label{sec:mactex}
 
 Mac\TeX{} er dybest set bare \TeX{} Live pakket til Mac OSX. Den
-rigtige mappe er
-\href{http://www.tug.org/mactex/faq/#qm04}{formentlig} i dette
-tilfælde \nolinkurl{~/Library/texmf}.
+rigtige mappe \href{http://www.tug.org/mactex/faq/#qm04}{i dette
+tilfælde} \nolinkurl{~/Library/texmf}.
 
 \section{MiK\TeX}
 \label{sec:miktex}
