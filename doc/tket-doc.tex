@@ -121,43 +121,60 @@ For at vide mere er du nødt til at læse videre.
 \chapter{Installation}
 \label{cha:installation}
 % Når du opdater denne sektion, må du også gerne opdatere README.md
-Den letteste måde at installere pakken er at få fat i zip-filen
-\filnavn{tket.tds.zip}, som indeholder alle de nødvendige filer. Den nyeste
-version kan hentes fra \url{https://github.com/TK-IT/tket-latex/releases}.
-
-Den skal du pakke ud i roden af et \enquote{lokalt texmf-træ}. Hvor og hvordan
-du finder den mappe afhænger af din \TeX-distribution (\mbox{\TeX{}
-  Live}/\mbox{Mac\TeX}/\mbox{MiK\TeX}).
-
 \section{\TeX{} Live eller Mac\TeX}
 \label{sec:tex-live}
+For at installere pakken skal du gøre følgende ting:
 
-Hvis du bruger
-\href{http://www.tug.org/texlive/doc/texlive-en/texlive-en.html#x1-380003.4.7}{\TeX{}
-  Live} på Windows er den rigtige mappe formentlig noget i retning af
-\meta{\%USERPROFILE\%}{\ttfamily \textbackslash texmf}.
+\begin{itemize}
+\item Hent \texttt{tket.tds.zip}
+\item Pak den ud i dit lokale \textbf{TEXMF}-træ
+\item Opdaterer fildatabasen
+\end{itemize}
 
-På et Linux-agtigt system er det formentlig \nolinkurl{~/texmf}.
+\subsection{Hent \texttt{tket.tds.zip}}
 
-På macOS er \href{http://www.tug.org/mactex/faq/#qm04}{det formentligt}
-\nolinkurl{~/Library/texmf}.
+\texttt{tket.tds.zip} indeholder alle de nødvendige filer. Den nyeste version
+kan altid hentes fra \url{https://github.com/TK-IT/tket-latex/releases}.
 
-Du kan forvisse dig om den rigtige værdi ved at køre kommandoen {\ttfamily
-  kpsewhich -var-value TEXMFHOME} i en terminal.
+\subsection{Pak \texttt{tket.tds.zip} ud i dit lokale \texttt{TEXMF}`-træ}
 
-Når du har pakket zip-filen ud skal fildatabasen opdateres. Det gøres
-lettest ved at udføre kommandoen {\ttfamily mktexlsr}. På Windows er
-der måske en grafisk måde at gøre det på. 
+Dit lokale \texttt{TEXMF}-træ er et mappetræ hvor TeX Live finder de pakker du selv
+har installeret. Formenligt findes det et af følgende steder:
+\begin{description}
+\item[Windows] Hvis du bruger
+  \href{http://www.tug.org/texlive/doc/texlive-en/texlive-en.html#x1-380003.4.7}{TeX
+    Live på Windows} er den rigtige mappe sikkert:
+  \meta{\%USERPROFILE\%}{\ttfamily \textbackslash texmf}. Det vil sige at hvis
+  din bruger hedder \texttt{Hænger} er stien \texttt{C:\textbackslash
+    Brugere\textbackslash Hænger\textbackslash texmf\textbackslash}.
+\item[Linux] På et Linux-agtigt system er det \nolinkurl{~/texmf}.
+\item[macOS] På macOS \href{http://www.tug.org/mactex/faq/#qm04}{er det}
+  \nolinkurl{~/Library/texmf}.
+\end{description}
+
+Hvis det ikke findes, eller du har ændret opsætningen, kan du forvisse dig om
+den rigtige værdi ved at køre kommandoen \texttt{kpsewhich -var-value TEXMFHOME}
+i en terminal.
+
+\texttt{tket.tds.zip} skal pakkes ud i roden af dit lokale \texttt{TEXMF}-træ.
+Det kan du gøre ved at ligge filen i overnævte mappe og måske dobbetklikke på
+den. Alternativt kan du i en terminal på en unix-ligende system skrive
+\texttt{unzip tket.tds.zip}.
 
 
-Mac\TeX{} er dybest set bare \TeX{} Live pakket til Mac OSX. Den
-rigtige mappe \href{http://www.tug.org/mactex/faq/#qm04}{i dette
-tilfælde} \nolinkurl{~/Library/texmf}.
+\subsection{Opdater fildatabasen}
+
+\TeX{} Live har en database over alle filer så den (hurtigt) kan finde pakker. For
+at opdatere den udføres kommandoen \texttt{mktexlsr} i en terminal. På unix-ligende
+systemer er de måske nødvendigt at køre den med \texttt{sudo}: \texttt{sudo mktexlsr}.
+
+Du skulle nu være klar til at bruge \texttt{tket} i dine \LaTeX-dokumenter.
 
 \section{MiK\TeX}
 \label{sec:miktex}
 
-Keine Ahnung.
+Prøv at se \href{http://docs.miktex.org/manual/localadditions.html}{i Mik\TeX{}
+  dokumentationen}.
 
 \chapter{Brug af pakken}
 \label{cha:brug-af-pakken}
